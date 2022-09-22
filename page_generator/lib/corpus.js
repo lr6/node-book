@@ -14,8 +14,13 @@ export function loadCorpus(src) {
 
 export function saveToFile(title, article) {
   const outPutDir = resolve(__dirname, '..', 'output')
-  const time = moment().format('|YYYY-MM-DD|hh:mm:ss')
-  const outPutFile = resolve(outPutDir, `${title}${time}.txt`)
+  /*
+  * Windows中“文件名不能包含下列任何字符之一： \ / : * ? " < > | ”
+  * const time = moment().format('|YYYY-MM-DD|hh:mm:ss')
+  * http://momentjs.cn/docs/#/displaying/format/
+  * */
+  const time = moment().format('x')
+  const outPutFile = resolve(outPutDir, `${title}_${time}.txt`)
   if(!existsSync(outPutDir)) {
     mkdirSync(outPutDir)
   }
