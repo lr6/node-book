@@ -6,13 +6,14 @@
  * https://cloud.tencent.com/developer/article/1857433
  */
 
-import { platform } from 'os'
+// import { platform } from 'os'
 import readline from 'readline'
 
-let suffix = -1
-if(platform() === 'win32') {
-  suffix = -2
-}
+// 兼容Windows的写法
+// let suffix = -1
+// if(platform() === 'win32') {
+//   suffix = -2
+// }
 
 function question(rl, { text, value }) {
   const q = `${text}(${value})\r\n`
@@ -23,9 +24,17 @@ function question(rl, { text, value }) {
   })
 }
 
-export function interact(questions) {
+export async function interact(questions) {
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
   })
+  const answers = []
+  for(let i = 0; i < questions.length; i++) {
+    const q = questions[i]
+    const answer = await question(rl, q)
+    answers.push(answer)
+  }
+  rl.close()
+  return answers
 }
