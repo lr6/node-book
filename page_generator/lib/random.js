@@ -12,7 +12,7 @@ export function randomInt(min, max) {
 /*
 * 过程抽象的办法
 * 用高阶函数的方式还有一个重要原因是，我们的语料库只需要在初始化时加载一次，而随机语料的获取操作要进行许多次。
-* 那么我们直接用高阶函数在 createRandomPicker 的时候，通过函数闭包将语料库的数组绑定到返回的 randomPick 过程里，
+* 那么我们直接用高阶函数在 createRandomPicked 的时候，通过函数闭包将语料库的数组绑定到返回的 randomPick 过程里，
 * 就不用在每次随机获取的时候都传入数组参数了，使用上更方便
 * */
 export function createRandomPicked(arr) {

@@ -20,9 +20,9 @@
 <main>
     <article></article>
 </main>
+<script src="./dist/index.js"></script>
 <script type="module">
-    import { generate } from "./lib/generator.js";
-    import { createRandomPicked } from "./lib/random.js";
+    const {generate, createRandomPicked, loadCorpus} = pageGenerator
     const options = document.querySelector('.options')
     const config = { min: 2000, max: 5000 }
     options.addEventListener('change', ({target}) => {
@@ -37,7 +37,7 @@
     const titleEl = document.getElementById('title');
 
     (async function() {
-      const corpus = await (await fetch('./corpus/data.json')).json()
+      const corpus = await loadCorpus()
       const pickTitle = createRandomPicked(corpus.title)
       titleEl.value = pickTitle()
       anotherTitleButton.addEventListener('click', () => {
