@@ -2,8 +2,15 @@ const net = require('net')
 
 const server = net.createServer((socket) => {
   socket.on('data', (data) => {
-    socket.write(response('<h1>Hello world</h1>'))
-    console.log(data)
+    const matched = data.toString('utf-8').match(/^GET ([/\w]+) HTTP/)
+    if (matched) {
+      const path = matched[1]
+      if (path === '/') {
+        socket.write(response('<h1>Hello world</h1>'))
+      } else {
+        socket.write(response('<h1>Not Found</h1>'), 404, "NOT FOUND")
+      }
+    }
   })
 
   socket.on('close', () => {
@@ -20,8 +27,8 @@ server.listen({
   console.log('opened server on', server.address())
 })
 
-function response(str) {
-  return `HTTP/1.1 200 OK
+function response(str, status = 200, desc = 'OK') {
+  return `HTTP/1.1 ${status} ${desc}
 Connection: keep-alive
 Date: ${new Date()}
 Content-length: ${str.length}
